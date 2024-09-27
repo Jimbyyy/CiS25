@@ -11,7 +11,7 @@ int main() {
 
 	// Swapping variables
 	temp = num1;
-	num1 = num2
+	num1 = num2;
 	num2 = temp;
 	cout << "\n\nSwapped: "
 		<< "\nnum1: " << num1
