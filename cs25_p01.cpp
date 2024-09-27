@@ -7,6 +7,24 @@ float rollDice(int minValue = -1000, int maxValue = 1000) {
     return((rand() % (maxValue - minValue + 1)) + minValue) / 10000.0;
 }
 
+void arrFiller(int arr1[], int arr2[], int size) {
+    for (int i = 0; i < size; i++) {
+        arr1[i] = arr2[i];
+    }
+}
+
+void arrFiller(string arr1[], string arr2[], int size) {
+    for (int i = 0; i < size; i++) {
+        arr1[i] = arr2[i];
+    }
+}
+
+void arrFiller(float arr1[], float arr2[], int size) {
+    for (int i = 0; i < size; i++) {
+        arr1[i] = arr2[i];
+    }
+}
+
 class Customer;
 
 class Stock {
@@ -53,7 +71,59 @@ public:
     }
 };
 
-class Business;
+class Business {
+private:
+    string name;
+    int inventory[3] = { 0,0,0 };
+    string items[3] = { "A","B","C" };
+    float prices[3] = { 0,0,0 };
+    float totalCash;
+    float popularity;
+public:
+    Business(string name, string items[], int inventory[], float prices[], float totalCash, float popularity) {
+        this->name = name;
+        arrFiller(this->items, items, 3);
+        arrFiller(this->inventory, inventory, 3);
+        arrFiller(this->prices, prices, 3);
+        this->totalCash = totalCash;
+        this->popularity = popularity;
+    }
+
+    void setName(string name) {
+        this->name = name;
+    }
+    string getName() {
+        return name;
+    }
+
+    void setItems(int i, int item) {
+        items[i] = item;
+    }
+    string getItems(int i) {
+        return items[i];
+    }
+
+    void setPrices(int i, int price) {
+        prices[i] = price;
+    }
+    float getPrices(int i) {
+        return prices[i];
+    }
+
+    void setTotalCash(int cash) {
+        totalCash = cash;
+    }
+    float getTotalCash() {
+        return totalCash;
+    }
+    
+    void setPopularity(float popularity) {
+        this->popularity = popularity;
+    }
+    float getPopularity() {
+        return popularity;
+    }
+};
 
 int main() {
 
@@ -69,7 +139,7 @@ int main() {
         cout << "new price: " << amk.getPrice() << endl;
         cout << "--------" << endl;
     }
-
+    
     // testing output of dice roller
     for (int i = 0; i < 100; i++) {
         cout << "Dice " << i << ": " << rollDice() << " || ";
