@@ -25,28 +25,28 @@ public:
         this->name = name;
     }
     string getName() {
-        return this->name;
+        return name;
     }
 
     void setPrice(float price) {
         this->price = price;
     }
     float getPrice() {
-        return this->price;
+        return price;
     }
 
-    void setGrowth(float price) {
+    void setGrowth(float growth) {
         this->growth = growth;
     }
     float getGrowth() {
-        return this->price;
+        return growth;
     }
 
     void alterGrowth() {
-        setGrowth(this->growth = (growth * rollDice()));
+        setGrowth((growth * rollDice()));
     }
     void newPrice() {
-        setPrice(this->price = (price + (price * growth)));
+        setPrice(price + (price * growth));
     }
 };
 class Business;
@@ -70,7 +70,7 @@ int main() {
 
     // testing output of dice roller
     for (int i = 0; i < 100; i++) {
-        cout << "Dice " << i << ": " << rollDice() << endl;;
+        cout << "Dice " << i << ": " << rollDice() << " || ";
     }
 
     return 0;
