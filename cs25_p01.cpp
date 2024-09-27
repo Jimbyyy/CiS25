@@ -1,21 +1,21 @@
 #include <iostream>
 #include<cstring>
 #include <ctime>
-#include <cmath>
 using namespace std;
 
 float rollDice(int minValue = -1000, int maxValue = 1000) {
-    return((rand() % (maxValue - minValue + 1)) + minValue) / 100.0;
+    return((rand() % (maxValue - minValue + 1)) + minValue) / 10000.0;
 }
 
 class Customer;
+
 class Stock {
 private:
     string name;
     float price;
     float growth;
 public:
-    Stock(string name = "N/A", float price = 0.00, float growth = 0.00) {
+    Stock(string name = "N/A", float price = 1.00, float growth = 1.00) {
         this->name = name;
         this->price = price;
         this->growth = growth;
@@ -42,13 +42,17 @@ public:
         return growth;
     }
 
-    void alterGrowth() {
-        setGrowth((growth * rollDice()));
+    double alterGrowth() {
+        return(growth * rollDice());
     }
     void newPrice() {
-        setPrice(price + (price * growth));
+        if (price > 0.10)
+            setPrice(price + (price * alterGrowth()));
+        else
+            setPrice(1);
     }
 };
+
 class Business;
 
 int main() {
@@ -59,12 +63,10 @@ int main() {
     Stock amk("amk", 100.00, 1.0);
 
     // testing output for stock object
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 1000; i++) {
         cout << "price: " << amk.getPrice() << endl;
-        amk.alterGrowth();
         amk.newPrice();
-        cout << "price: " << amk.getPrice() << endl;
-        cout << "growth: " << amk.getGrowth() << endl;
+        cout << "new price: " << amk.getPrice() << endl;
         cout << "--------" << endl;
     }
 
