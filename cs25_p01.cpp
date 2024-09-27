@@ -3,6 +3,8 @@
 #include <ctime>
 using namespace std;
 
+void buyStock();
+
 float rollDice(int minValue = -1000, int maxValue = 1000) {
     return((rand() % (maxValue - minValue + 1)) + minValue) / 10000.0;
 }
@@ -116,13 +118,45 @@ public:
     float getTotalCash() {
         return totalCash;
     }
-    
+
     void setPopularity(float popularity) {
         this->popularity = popularity;
     }
     float getPopularity() {
         return popularity;
     }
+
+    void buyStock(Stock stock, int num, int itemNum) {
+        if((totalCash >= (num * stock.getPrice())) && (items[itemNum] == stock.getName()))
+            setTotalCash(totalCash - (num * stock.getPrice()));
+        else
+            cout << "ERROR, not enough money or wrong stock!" << endl;
+    }
+
+    void sellStock(Stock stock, int num, int itemNum) {
+        if(items[itemNum] == stock.getName())
+            setTotalCash(totalCash + (num * stock.getPrice()));
+        else
+            cout << "ERROR, not enough money or wrong stock!" << endl;
+    }
+
+    void advertise(int cash) {
+        if(cash > 50 + (0.01*popularity))
+            setPopularity(popularity + 10);
+        else
+            cout << "ERROR, not enough cash!" << endl;
+    }
+    
+    /*
+    Business should have the following functionalities:
+    ==================================
+    - ability to buy inventory
+    - ability to sell inventory
+    - ability to set prices
+    - ability to advertise
+    ===================================
+    */
+
 };
 
 int main() {
@@ -132,6 +166,8 @@ int main() {
 
     Stock amk("amk", 100.00, 1.0);
 
+    Stock crack("crack", 100.00, 10), jello("jello", 30, 3), pinapple("pinapple", 5, 1);
+
     // testing output for stock object
     for (int i = 0; i < 1000; i++) {
         cout << "price: " << amk.getPrice() << endl;
@@ -139,7 +175,7 @@ int main() {
         cout << "new price: " << amk.getPrice() << endl;
         cout << "--------" << endl;
     }
-    
+
     // testing output of dice roller
     for (int i = 0; i < 100; i++) {
         cout << "Dice " << i << ": " << rollDice() << " || ";
