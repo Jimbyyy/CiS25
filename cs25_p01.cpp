@@ -3,8 +3,6 @@
 #include <ctime>
 using namespace std;
 
-void buyStock();
-
 float rollDice(int minValue = -1000, int maxValue = 1000) {
     return((rand() % (maxValue - minValue + 1)) + minValue) / 10000.0;
 }
@@ -76,13 +74,13 @@ public:
 class Business {
 private:
     string name;
-    int inventory[3] = { 0,0,0 };
-    string items[3] = { "A","B","C" };
-    float prices[3] = { 0,0,0 };
+    int inventory[3];
+    string items[3];
+    float prices[3];
     float totalCash;
     float popularity;
 public:
-    Business(string name, string items[], int inventory[], float prices[], float totalCash, float popularity) {
+    Business(string name, string items[3], int inventory[3], float prices[3], float totalCash = 1000, float popularity = 100) {
         this->name = name;
         arrFiller(this->items, items, 3);
         arrFiller(this->inventory, inventory, 3);
@@ -127,26 +125,30 @@ public:
     }
 
     void buyStock(Stock stock, int num, int itemNum) {
-        if((totalCash >= (num * stock.getPrice())) && (items[itemNum] == stock.getName()))
+        if ((totalCash >= (num * stock.getPrice())) && (items[itemNum] == stock.getName())) {
             setTotalCash(totalCash - (num * stock.getPrice()));
+            inventory[itemNum] += num;
+        }
         else
             cout << "ERROR, not enough money or wrong stock!" << endl;
     }
 
     void sellStock(Stock stock, int num, int itemNum) {
-        if(items[itemNum] == stock.getName())
+        if ((items[itemNum] == stock.getName()) && inventory[itemNum] > 0) {
             setTotalCash(totalCash + (num * stock.getPrice()));
+            inventory[itemNum] -= num;
+        }
         else
-            cout << "ERROR, not enough money or wrong stock!" << endl;
+            cout << "ERROR, not enough money or stock!" << endl;
     }
 
     void advertise(int cash) {
-        if(cash > 50 + (0.01*popularity))
+        if (cash > 50 + (0.01 * popularity))
             setPopularity(popularity + 10);
         else
             cout << "ERROR, not enough cash!" << endl;
     }
-    
+
     /*
     Business should have the following functionalities:
     ==================================
@@ -164,22 +166,39 @@ int main() {
     // rand() func seed
     srand(time(nullptr));
 
+    // test stocks
     Stock amk("amk", 100.00, 1.0);
+    Stock crack("crack", 100.00, 100),
+        jello("jello", 30, 3),
+        pinapple("pinapple", 5, 1);
 
-    Stock crack("crack", 100.00, 10), jello("jello", 30, 3), pinapple("pinapple", 5, 1);
+    // test business parameters
+    int inventory[3] = { 0,0,0 };
+    string items[3] = { "crack","jello","pinapple" };
+    float prices[3] = { 0,0,0 };
+
+    Business shop("Lmabdacore", items, inventory, prices, 1000, 100);
+
+    // testing business functions
+    cout << shop.getName() << endl;
+    shop.buyStock(crack, 10, 0);
+    cout << shop.getTotalCash() << endl;
+    crack.newPrice();
+    shop.sellStock(crack, 10, 0);
+    cout << shop.getTotalCash() << endl;
 
     // testing output for stock object
-    for (int i = 0; i < 1000; i++) {
-        cout << "price: " << amk.getPrice() << endl;
-        amk.newPrice();
-        cout << "new price: " << amk.getPrice() << endl;
-        cout << "--------" << endl;
-    }
+     for (int i = 0; i < 10; i++) {
+         cout << "price: " << crack.getPrice() << endl;
+         crack.newPrice();
+         cout << "new price: " << crack.getPrice() << endl;
+         cout << "--------" << endl;
+     }
 
     // testing output of dice roller
-    for (int i = 0; i < 100; i++) {
-        cout << "Dice " << i << ": " << rollDice() << " || ";
-    }
+    // for (int i = 0; i < 10; i++) {
+    //     cout << "Dice " << i << ": " << rollDice() << " || ";
+    // }
 
     return 0;
 }
