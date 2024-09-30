@@ -20,18 +20,19 @@ float absVal(float num) {
         return num;
 }
 
+// takes the values of one array to fill another of the same size
 void arrFiller(int arr1[], int arr2[], int size) {
     for (int i = 0; i < size; i++) {
         arr1[i] = arr2[i];
     }
 }
-
+// takes the values of one array to fill another of the same size
 void arrFiller(string arr1[], string arr2[], int size) {
     for (int i = 0; i < size; i++) {
         arr1[i] = arr2[i];
     }
 }
-
+// takes the values of one array to fill another of the same size
 void arrFiller(float arr1[], float arr2[], int size) {
     for (int i = 0; i < size; i++) {
         arr1[i] = arr2[i];
@@ -58,36 +59,45 @@ private:
     float price;
     float growth;
 public:
+    // constructor
     Stock(string name = "N/A", float price = 1.00, float growth = 1.00) {
         this->name = name;
         this->price = price;
         this->growth = growth;
     }
 
+    // changes the name of stock
     void setName(string name) {
         this->name = name;
     }
+    // returns the name of stock
     string getName() {
         return name;
     }
 
+    // changes the price of stock
     void setPrice(float price) {
         this->price = price;
     }
+    // returns price of stock
     float getPrice() {
         return price;
     }
 
+    // changes growth rate of stock
     void setGrowth(float growth) {
         this->growth = growth;
     }
+    // returns growth rate of stocks
     float getGrowth() {
         return growth;
     }
 
+    // returns a randomized stock percentage growth rate
     double alterGrowth() {
         return(growth * rollDice());
     }
+    // generates and sets a new price for stock
     void newPrice() {
         float alterPrice = (price + (price * alterGrowth()));
         if (alterPrice >= 0.01)
@@ -106,6 +116,7 @@ private:
     float cash;
     float popularity;
 public:
+    // constructor
     Business(string name, string items[SIZE], int inventory[SIZE], float prices[SIZE],
         float cash = 1000, float newWorth = 1000, float popularity = 100) {
         this->name = name;
@@ -116,48 +127,61 @@ public:
         this->popularity = popularity;
     }
 
+    // changes name of business
     void setName(string name) {
         this->name = name;
     }
+    // returns name of business
     string getName() {
         return name;
     }
 
-    void setItems(int i, int item) {
+    // changes item name of item i
+    void setItems(int i, string item) {
         items[i] = item;
     }
+    // returns name of item i
     string getItems(int i) {
         return items[i];
     }
 
+    // changes inventory of item i by amount num
     void setInventory(int i, int num) {
         inventory[i] = num;
     }
+    // returns inventory of item i
     int getInventory(int i) {
         return inventory[i];
     }
 
+    // changes price of item i to input price
     void setPrices(int i, int price) {
         prices[i] = price;
     }
+    // returns price of item i
     float getPrices(int i) {
         return prices[i];
     }
 
+    // changes cash to input amount
     void setCash(int cash) {
         this->cash = cash;
     }
+    // returns cash amount
     float getCash() {
         return cash;
     }
 
+    // change popularity to input amount
     void setPopularity(float popularity) {
         this->popularity = popularity;
     }
+    // returns popularity value
     float getPopularity() {
         return popularity;
     }
 
+    // finds and buys stock based on cash and name
     void buyStock(Stock stock, int num, int itemNum) {
         if ((cash >= (num * stock.getPrice())) && (items[itemNum] == stock.getName())) {
             setCash(cash - (num * stock.getPrice()));
@@ -166,7 +190,8 @@ public:
         else
             cout << "ERROR, not enough money or wrong stock!" << endl;
     }
-
+    
+    // finds and sells stock based on inventory and name
     void sellStock(Stock stock, int num, int itemNum) {
         if ((items[itemNum] == stock.getName()) && inventory[itemNum] > 0) {
             setCash(cash + (num * stock.getPrice()));
@@ -176,6 +201,7 @@ public:
             cout << "ERROR, not enough money or stock!" << endl;
     }
 
+    // spend cash to increase popularity
     void advertise(int cash) {
         if (cash > 50 + (0.01 * popularity))
             setPopularity(popularity + 10);
@@ -184,6 +210,7 @@ public:
     }
 };
 
+// displays ui menu for user
 void displayMenu() {
     cout << "\n=== Stock Market Menu ===" << endl;
     cout << "1. Buy Stock" << endl;
@@ -195,6 +222,7 @@ void displayMenu() {
     cout << "Choose an option: ";
 }
 
+// displays intro blurb to user
 void displayIntro(string& name) {
     cout << "Hello, welcome to the stock market simulator. Will you rise to riches or fall to rags?\n";
     cout << "=========================================================================================" << endl;
@@ -215,12 +243,12 @@ int main() {
     // rand() func seed
     srand(time(nullptr));
 
-    // test stocks
+    // stocks
     Stock crack("crack", 1000.00, 64),
         jello("jello", 100.00, 32),
         pinapple("pinapple", 10.00, 16);
 
-    // test business parameters
+    // business parameters
     string name;
     int inventory[SIZE] = { 0,0,0 };
     string items[SIZE] = { "crack","jello","pinapple" };
@@ -236,6 +264,7 @@ int main() {
     int dayCount = 0;
     int choice = 0;
 
+    // initial businessInfoDisplay
     // ideally this'd be a businessInfoDisplay function, however I get errors when trying to access
     // access a Business object's parameters in a function, hence I must manually print output
     cout << left << setw(20) << "Day: " << dayCount << endl;
@@ -254,6 +283,7 @@ int main() {
             << endl;
     }
 
+    // Primary game loop
     while (true) {
 
         displayMenu();
@@ -323,27 +353,6 @@ int main() {
         else {
             cout << "Invalid choice. Please try again." << endl;
         }
-    }
-
-    // testing business functions
-    cout << shop.getName() << endl;
-    shop.buyStock(crack, 10, 0);
-    cout << shop.getCash() << endl;
-    crack.newPrice();
-    shop.sellStock(crack, 10, 0);
-    cout << shop.getCash() << endl;
-
-    // testing output for stock object
-    for (int i = 0; i < 100; i++) {
-        cout << "price: " << crack.getPrice() << endl;
-        crack.newPrice();
-        cout << "new price: " << crack.getPrice() << endl;
-        cout << "--------" << endl;
-    }
-
-    // testing output of dice roller
-    for (int i = 0; i < 10; i++) {
-        cout << "Dice " << i << ": " << rollDice() << " || ";
     }
 
     return 0;
