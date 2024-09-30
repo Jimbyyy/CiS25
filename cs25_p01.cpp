@@ -6,8 +6,18 @@ using namespace std;
 
 const int SIZE = 3;
 
+// by default generates decimal values between -0.01 and +0.01
+// additional digits for increased level of precision
 float rollDice(int minValue = -1000, int maxValue = 1000) {
     return((rand() % (maxValue - minValue + 1)) + minValue) / 10000.0;
+}
+
+// returns the absolute value of an integer input
+float absVal(float num) {
+    if (num < 0)
+        return -num;
+    else
+        return num;
 }
 
 void arrFiller(int arr1[], int arr2[], int size) {
@@ -80,10 +90,10 @@ public:
     }
     void newPrice() {
         float alterPrice = (price + (price * alterGrowth()));
-        if (alterPrice >= 0.10)
+        if (alterPrice >= 0.01)
             setPrice(alterPrice);
         else
-            setPrice(1);
+            setPrice(absVal(rollDice() * 10));
     }
 };
 
@@ -172,17 +182,6 @@ public:
         else
             cout << "ERROR, not enough cash!" << endl;
     }
-
-    /*
-    Business should have the following functionalities:
-    ==================================
-    - ability to buy inventory
-    - ability to sell inventory
-    - ability to set prices
-    - ability to advertise
-    ===================================
-    */
-
 };
 
 void displayMenu() {
@@ -190,9 +189,25 @@ void displayMenu() {
     cout << "1. Buy Stock" << endl;
     cout << "2. Sell Stock" << endl;
     cout << "3. View Business Info" << endl;
-    cout << "4. Exit" << endl;
+    cout << "4. Sleep To Tommorow" << endl;
+    cout << "5. Exit Game" << endl;
     cout << "=========================" << endl;
     cout << "Choose an option: ";
+}
+
+void displayIntro(string& name) {
+    cout << "Hello, welcome to the stock market simulator. Will you rise to riches or fall to rags?\n";
+    cout << "=========================================================================================" << endl;
+    cout << "First of all, what will your stock empire be called?: ";
+    cin >> name;
+    cout << "\nOkay, " << name << " you've been blessed by your parents and offered $1000 of cash to start with!"
+        << "\nThey don't trust you however, so you must train yourself first in the virtual world..."
+        << "\nThere are 3 primary stocks on this market: crack, jello, and pinapple corps. to name!"
+        << "\nCrack co. is a cutting-edge, black market company run by illegal organizations, "
+        << "and thus suffers from the highest amount of volataility"
+        << "\nJello incorporated, are a trendy, innovative company known for their unique products, they have medium volatility"
+        << "\nPinapple is a traditional mass market distributer, and is known to be quite stable with low volatility"
+        << "\nOkay, good luck out there! Initializing stock ui interface now... \n" << endl;
 }
 
 int main() {
@@ -201,9 +216,9 @@ int main() {
     srand(time(nullptr));
 
     // test stocks
-    Stock crack("crack", 100.00, 100),
-        jello("jello", 30, 10),
-        pinapple("pinapple", 5, 1);
+    Stock crack("crack", 1000.00, 64),
+        jello("jello", 100.00, 32),
+        pinapple("pinapple", 10.00, 16);
 
     // test business parameters
     string name;
@@ -214,40 +229,99 @@ int main() {
     float startingCash = 1000;
     float startingPopulartity = 100;
 
-    cout << "Hello, welcome to the stock market simulator. Will you rise to riches or fall to rags?\n";
-    cout << "=========================================================================================" << endl;
-    cout << "First of all, what will your stock empire be called?: ";
-    cin >> name;
-    cout << "\nOkay, " << name << " you've been blessed by your parents and offered $1000 of cash to start with!"
-        << "\nThere are 3 primary stocks on the market: crack, jello, and pinapple corps. to name!"
-        << "\nCrack co. is a cutting-edge, black market company run by illegal organizations, "
-        << "and thus suffers from the highest amount of volataility"
-        << "\nJello incorporated, are a trendy, innovative company known for their unique products, they have medium volatility"
-        << "\nPinapple is a traditional mass market distributer, and is known to be quite stable with low volatility"
-        << "\nOkay, good luck out there! Initializing stock ui interface now... " << endl;
+    displayIntro(name);
 
     Business shop(name, items, inventory, prices, startingCash, startingPopulartity);
 
     int dayCount = 0;
-    while (dayCount < 1) {
-        cout << left << setw(20) << dayCount << endl;
-        cout << left << setw(20) << "Business Name" << ": " << shop.getName() << endl;
-        cout << left << setw(20) << "Cash" << ": $" << shop.getCash() << endl;
+    int choice = 0;
 
-        cout << "\n" << left << setw(20) << "Item" << setw(15) << "Inventory" << setw(15) << "Price" << endl;
-        cout << "--------------------------------------------------" << endl;
+    // ideally this'd be a businessInfoDisplay function, however I get errors when trying to access
+    // access a Business object's parameters in a function, hence I must manually print output
+    cout << left << setw(20) << "Day: " << dayCount << endl;
+    cout << left << setw(20) << "Business Name" << ": " << shop.getName() << endl;
+    cout << left << setw(20) << "Cash" << ": $" << shop.getCash() << endl;
 
-        for (int i = 0; i < SIZE; i++) {
-            cout << left << setw(20) << shop.getItems(i)
-                << setw(15) << shop.getInventory(i)
-                << "$" << setw(14) << (shop.getInventory(i) * stocks[i].getPrice()) << endl;
-        }
+    cout << "\n" << left << setw(20) << "Item" << setw(15) << "Inventory" << setw(15) << "Price" << setw(15) << "Holdings" << endl;
+    cout << "---------------------------------------------------------------------" << endl;
+
+    for (int i = 0; i < SIZE; i++) {
+        cout << fixed << setprecision(2)
+            << left << setw(20) << shop.getItems(i)
+            << setw(15) << shop.getInventory(i)
+            << "$" << setw(14) << stocks[i].getPrice()
+            << "$" << setw(14) << (shop.getInventory(i) * stocks[i].getPrice())
+            << endl;
+    }
+
+    while (true) {
 
         displayMenu();
-        dayCount++;
-       
-        for (int i = 0; i < SIZE; i++) {
-            stocks[i].newPrice();
+        cin >> choice;
+
+        if (choice == 1) {
+            string stockName;
+            int quantity;
+            cout << "Enter the stock name you want to buy (crack/jello/pinapple): ";
+            cin >> stockName;
+            cout << "Enter quantity to buy: ";
+            cin >> quantity;
+
+            // Find the stock based on the name
+            for (int i = 0; i < SIZE; i++) {
+                if (stocks[i].getName() == stockName) {
+                    shop.buyStock(stocks[i], quantity, i);
+                    break;
+                }
+            }
+        }
+        else if (choice == 2) {
+            string stockName;
+            int quantity;
+            cout << "Enter the stock name you want to sell (crack/jello/pinapple): ";
+            cin >> stockName;
+            cout << "Enter quantity to sell: ";
+            cin >> quantity;
+
+            // Find the stock based on the name
+            for (int i = 0; i < SIZE; i++) {
+                if (stocks[i].getName() == stockName) {
+                    shop.sellStock(stocks[i], quantity, i);
+                    break;
+                }
+            }
+        }
+        else if (choice == 3) {
+            cout << endl;
+            cout << left << setw(20) << "Day: " << dayCount << endl;
+            cout << left << setw(20) << "Business Name" << ": " << shop.getName() << endl;
+            cout << left << setw(20) << "Cash" << ": $" << shop.getCash() << endl;
+
+            cout << "\n" << left << setw(20) << "Item" << setw(15) << "Inventory" << setw(15) << "Price" << setw(15) << "Holdings" << endl;
+            cout << "---------------------------------------------------------------------" << endl;
+
+            for (int i = 0; i < SIZE; i++) {
+                cout << fixed << setprecision(2)
+                    << left << setw(20) << shop.getItems(i)
+                    << setw(15) << shop.getInventory(i)
+                    << "$" << setw(14) << stocks[i].getPrice()
+                    << "$" << setw(14) << (shop.getInventory(i) * stocks[i].getPrice())
+                    << endl;
+            }
+        }
+        else if (choice == 4) {
+            dayCount++;
+            for (int i = 0; i < SIZE; i++) {
+                stocks[i].newPrice();
+            }
+            cout << "You log off for the day, hoping that tommorow brings better fortunes...\n";
+        }
+        else if (choice == 5) {
+            cout << "Exiting the program. Thank you!" << endl;
+            break;
+        }
+        else {
+            cout << "Invalid choice. Please try again." << endl;
         }
     }
 
