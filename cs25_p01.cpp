@@ -105,6 +105,8 @@ public:
         else
             setPrice(absVal(rollDice() * 10));
     }
+
+    ~Stock() {};
 };
 
 class Business {
@@ -190,7 +192,7 @@ public:
         else
             cout << "ERROR, not enough money or wrong stock!" << endl;
     }
-    
+
     // finds and sells stock based on inventory and name
     void sellStock(Stock stock, int num, int itemNum) {
         if ((items[itemNum] == stock.getName()) && inventory[itemNum] > 0) {
@@ -208,6 +210,8 @@ public:
         else
             cout << "ERROR, not enough cash!" << endl;
     }
+
+    ~Business() {};
 };
 
 // displays ui menu for user
