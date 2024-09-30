@@ -248,9 +248,9 @@ int main() {
     srand(time(nullptr));
 
     // stocks
-    Stock crack("crack", 1000.00, 64),
-        jello("jello", 100.00, 32),
-        pinapple("pinapple", 10.00, 16);
+    Stock crack("crack", 100.00, 32),
+        jello("jello", 100.00, 16),
+        pinapple("pinapple", 100.00, 8);
 
     // business parameters
     string name;
@@ -271,7 +271,7 @@ int main() {
     // initial businessInfoDisplay
     // ideally this'd be a businessInfoDisplay function, however I get errors when trying to access
     // access a Business object's parameters in a function, hence I must manually print output
-    cout << left << setw(20) << "Day: " << dayCount << endl;
+    cout << left << setw(20) << "Day" << ": " << dayCount << endl;
     cout << left << setw(20) << "Business Name" << ": " << shop.getName() << endl;
     cout << left << setw(20) << "Cash" << ": $" << shop.getCash() << endl;
 
@@ -327,7 +327,7 @@ int main() {
         }
         else if (choice == 3) {
             cout << endl;
-            cout << left << setw(20) << "Day: " << dayCount << endl;
+            cout << left << setw(20) << "Day" << ": " << dayCount << endl;
             cout << left << setw(20) << "Business Name" << ": " << shop.getName() << endl;
             cout << left << setw(20) << "Cash" << ": $" << shop.getCash() << endl;
 
