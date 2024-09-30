@@ -236,7 +236,7 @@ void displayIntro(string& name) {
         << "\nThey don't trust you however, so you must train yourself first in the virtual world..."
         << "\nThere are 3 primary stocks on this market: crack, jello, and pinapple corps. to name!"
         << "\nCrack co. is a cutting-edge, black market company run by illegal organizations, "
-        << "and thus suffers from the highest amount of volataility"
+        << "\nand thus suffers from the highest amount of volataility"
         << "\nJello incorporated, are a trendy, innovative company known for their unique products, they have medium volatility"
         << "\nPinapple is a traditional mass market distributer, and is known to be quite stable with low volatility"
         << "\nOkay, good luck out there! Initializing stock ui interface now... \n" << endl;
