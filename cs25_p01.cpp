@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip>
-#include<cstring>
+#include <cstring>
 #include <ctime>
 using namespace std;
 
@@ -12,7 +12,7 @@ float rollDice(int minValue = -1000, int maxValue = 1000) {
     return((rand() % (maxValue - minValue + 1)) + minValue) / 10000.0;
 }
 
-// returns the absolute value of an integer input
+// returns the absolute value of an float input
 float absVal(float num) {
     if (num < 0)
         return -num;
