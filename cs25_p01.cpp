@@ -9,7 +9,7 @@ const int SIZE = 3;
 // by default generates decimal values between -0.01 and +0.01
 // additional digits for increased level of precision
 float rollDice(int minValue = -1000, int maxValue = 1000) {
-    return((rand() % (maxValue - minValue + 1)) + minValue) / 10000.0;
+    return static_cast<float>((rand() % (maxValue - minValue + 1)) + minValue) / 10000;
 }
 
 // returns the absolute value of an float input
@@ -223,7 +223,7 @@ void displayMenu() {
     cout << "4. Sleep To Tommorow" << endl;
     cout << "5. Exit Game" << endl;
     cout << "=========================" << endl;
-    cout << "Choose an option: ";
+    cout << "Choose an option (input a number): ";
 }
 
 // displays intro blurb to user
@@ -253,7 +253,7 @@ int main() {
         pinapple("pinapple", 100.00, 8);
 
     // business parameters
-    string name;
+    string name = "N/A";
     int inventory[SIZE] = { 0,0,0 };
     string items[SIZE] = { "crack","jello","pinapple" };
     float prices[SIZE] = { 0,0,0 };
