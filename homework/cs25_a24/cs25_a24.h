@@ -1,3 +1,6 @@
+#ifndef CS25_A24_H
+#define CS25_A24_H
+
 #include <iostream>
 using namespace std;
 
@@ -6,3 +9,5 @@ struct Customer{
     string name;
     string email;
 };
+
+#endif
