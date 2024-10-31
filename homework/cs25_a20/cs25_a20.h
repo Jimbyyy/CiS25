@@ -1,3 +1,6 @@
+#ifndef CS25_A20_H
+#define CS25_A20_H
+
 #include <iostream>
 using namespace std;
 
@@ -24,3 +27,5 @@ void displayArr(int arr[], int size) {
     }
     cout << endl;
 }
+
+#endif

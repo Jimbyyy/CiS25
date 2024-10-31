@@ -1,4 +1,3 @@
-#pragma once
 #ifndef CS25_A19_H
 #define CS25_A19_H
 

@@ -1,3 +1,6 @@
+#ifndef CS25_A26_H
+#define CS25_A26_H
+
 #include <iostream>
 using std::ostream;
 using namespace std;
@@ -15,3 +18,5 @@ ostream& operator<< (ostream& stream, Point& point1){
     stream << "(" << point1.x << ", " << point1.y << ")";
     return stream;
 }
+
+#endif
