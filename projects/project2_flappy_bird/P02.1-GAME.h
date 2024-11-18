@@ -6,16 +6,6 @@
 #include <conio.h>
 using namespace std;
 
-// Game constants
-const int HEIGHT = 20;
-const int WIDTH = 40;
-
-// Bird Properties
-extern int birdYCoord;
-extern int birdVelocity;
-extern bool gameOver;
-extern int score;
-
 struct Pipe {
 	int xCoord;
 	int topHeight;
@@ -26,16 +16,16 @@ struct Pipe {
 void clear();
 
 // Displays the gamefield
-void updateDisplay();
+void updateDisplay(const int HEIGHT, const int WIDTH, int& birdYCoord, int& numPipes, Pipe pipes[], int& score);
 
 // Calculates bird physics
-void birdLogic();
+void birdLogic(const int HEIGHT, const int WIDTH, int& birdYCoord, int& birdVelocity);
 
 // Handles Pipe generation and deletion
-void pipeLogic();
+void pipeLogic(const int HEIGHT, const int WIDTH, int& birdYCoord, int& birdVelocity, int& numPipes, Pipe pipes[], bool& gameOver, int& score);
 
-// Grabs user input
-void input();
+// Grabs user input and jump bird
+void input(int& birdVelocity);
 
 //void readHighScore();
 //

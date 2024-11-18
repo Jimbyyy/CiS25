@@ -1,13 +1,5 @@
 #include "P02.1-GAME.h"
 
-// Global variables
-int birdYCoord = HEIGHT / 2;
-int birdVelocity = 0;
-int score = 0;
-bool gameOver = false;
-Pipe pipes[10];
-int numPipes = 0;
-
 // ANSI clear terminal command
 void clear() {
 	// CSI[2J clears screen, CSI[H moves the cursor to top-left corner
@@ -15,7 +7,7 @@ void clear() {
 }
 
 // Displays the gamefield
-void updateDisplay() {
+void updateDisplay(const int HEIGHT, const int WIDTH, int& birdYCoord, int& numPipes, Pipe pipes[], int& score) {
 	for (int y = 0; y < HEIGHT; y++) {
 		for (int x = 0; x < WIDTH; x++) {
 			if (y == 0) {
@@ -64,7 +56,7 @@ void updateDisplay() {
 }
 
 // Calculates bird physics
-void birdLogic() {
+void birdLogic(const int HEIGHT, const int WIDTH, int& birdYCoord, int& birdVelocity) {
 	// applying gravity to the bird
 	birdVelocity += 1;
 	birdYCoord += birdVelocity;
@@ -80,7 +72,7 @@ void birdLogic() {
 }
 
 // Handles Pipe generation and deletion
-void pipeLogic() {
+void pipeLogic(const int HEIGHT, const int WIDTH, int& birdYCoord, int& birdVelocity, int& numPipes, Pipe pipes[], bool& gameOver, int& score) {
 	// generates new pipes if there are no pipes or a pipe has moved a certain distance
 	if (numPipes == 0 || pipes[numPipes - 1].xCoord <= WIDTH - 10) {
 		Pipe newPipe;
@@ -117,7 +109,7 @@ void pipeLogic() {
 }
 
 // Grabs user input
-void input() {
+void input(int& birdVelocity) {
 	if (_kbhit()) {
 		char current = _getch();
 		if (current == ' ') {

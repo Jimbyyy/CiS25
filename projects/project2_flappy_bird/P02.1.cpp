@@ -28,16 +28,24 @@ Things to do:
 const int HEIGHT = 20;
 const int WIDTH = 40;
 
+// Global game variables
+int birdYCoord = HEIGHT / 2;
+int birdVelocity = 0;
+int score = 0;
+bool gameOver = false;
+Pipe pipes[10];
+int numPipes = 0;
+
 int main() {
 
 	srand(time(nullptr));
 	while(true) {
 
 		while (!gameOver) {
-			updateDisplay();
-			input();
-			birdLogic();
-			pipeLogic();
+			updateDisplay(HEIGHT, WIDTH, birdYCoord, numPipes, pipes, score);
+			input(birdVelocity);
+			birdLogic(HEIGHT, WIDTH, birdYCoord, birdVelocity);
+			pipeLogic(HEIGHT, WIDTH, birdYCoord, birdVelocity, numPipes, pipes, gameOver, score);
 		}
 
 		clear();
