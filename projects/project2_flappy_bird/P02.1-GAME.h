@@ -6,6 +6,8 @@
 #include <conio.h>
 using namespace std;
 
+enum class Difficulty { Easy, Medium, Hard };
+
 struct Pipe {
 	int xCoord;
 	int topHeight;
@@ -16,7 +18,7 @@ struct Pipe {
 void clear();
 
 // Displays the gamefield
-void updateDisplay(const int HEIGHT, const int WIDTH, int& birdYCoord, int& numPipes, Pipe pipes[], int& score);
+void updateDisplay(const int HEIGHT, const int WIDTH, int& birdYCoord, int& numPipes, Pipe pipes[], int& score, int& highScore, int& difficultySpeed);
 
 // Calculates bird physics
 void birdLogic(const int HEIGHT, const int WIDTH, int& birdYCoord, int& birdVelocity);
@@ -27,6 +29,17 @@ void pipeLogic(const int HEIGHT, const int WIDTH, int& birdYCoord, int& birdVelo
 // Grabs user input and jump bird
 void input(int& birdVelocity);
 
-//void readHighScore();
-//
-//void writeHighScore();
+// Read high score from the file
+void readHighScore(int& highScore);
+
+// Write high score to the file
+void writeHighScore(int& score, int& highScore);
+
+// Display welcome message and difficulty settings
+void displayWelcome(int& difficultyChoice);
+
+// Set the difficulty enum based on user's difficulty choice
+void setGameDifficulty(int& difficultyChoice, Difficulty& gameDifficulty);
+
+// Set the difficulty speed based on difficulty speed enum
+void setDifficultySpeed(Difficulty gameDifficulty, int& difficultySpeed);

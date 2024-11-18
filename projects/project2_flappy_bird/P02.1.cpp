@@ -15,7 +15,7 @@ Things to do:
 		- Will display name and score
 	- Will use optimized bubblesort to rearrange scores from greatest to least
 		- Will grab top score for display during gameplay
-- Create difficulty settings []
+- Create difficulty settings [x]
 	- Use enumerations to alter global variables
 		- Use a switch-case to determine the right settings for user.
 
@@ -28,30 +28,40 @@ Things to do:
 const int HEIGHT = 20;
 const int WIDTH = 40;
 
-// Global game variables
-int birdYCoord = HEIGHT / 2;
-int birdVelocity = 0;
-int score = 0;
-bool gameOver = false;
-Pipe pipes[10];
-int numPipes = 0;
-
 int main() {
 
+	// Initializing game variables
+	int birdYCoord = HEIGHT / 2;
+	int birdVelocity = 0;
+	int score = 0;
+	int highScore = 0;
+	bool gameOver = false;
+	Difficulty gameDifficulty = Difficulty::Medium;
+	int difficultyChoice = 0;
+	int difficultySpeed = 100;
+	Pipe pipes[10];
+	int numPipes = 0;
+	
 	srand(time(nullptr));
-	while(true) {
 
-		while (!gameOver) {
-			updateDisplay(HEIGHT, WIDTH, birdYCoord, numPipes, pipes, score);
-			input(birdVelocity);
-			birdLogic(HEIGHT, WIDTH, birdYCoord, birdVelocity);
-			pipeLogic(HEIGHT, WIDTH, birdYCoord, birdVelocity, numPipes, pipes, gameOver, score);
-		}
+	displayWelcome(difficultyChoice);
+	setGameDifficulty(difficultyChoice, gameDifficulty);
+	setDifficultySpeed(gameDifficulty, difficultySpeed);
 
-		clear();
-		cout << "Game Over! Your final score is: " << score << endl;
+	readHighScore(highScore);
 
+	// flappy bird game loop
+	while (!gameOver) {
+		updateDisplay(HEIGHT, WIDTH, birdYCoord, numPipes, pipes, score, highScore, difficultySpeed);
+		input(birdVelocity);
+		birdLogic(HEIGHT, WIDTH, birdYCoord, birdVelocity);
+		pipeLogic(HEIGHT, WIDTH, birdYCoord, birdVelocity, numPipes, pipes, gameOver, score);
 	}
+
+	writeHighScore(score, highScore);
+
+	clear();
+	cout << "Game Over! Your final score is: " << score << endl;	
 
 	return 0;
 }
