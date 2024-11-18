@@ -41,8 +41,12 @@ int main() {
 	int difficultySpeed = 100;
 	Pipe pipes[10];
 	int numPipes = 0;
-	
 	srand(time(nullptr));
+	
+	// Score saver: Parallel arrays for names and scores
+	string* playerNames = nullptr;
+	int* playerScores = nullptr;
+	int totalPlayers = 0;
 
 	displayWelcome(difficultyChoice);
 	setGameDifficulty(difficultyChoice, gameDifficulty);
