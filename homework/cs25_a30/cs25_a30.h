@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CS25_A30_H
+#define CS25_A30_H
+
 #include <iostream>
 using std::string;
 
@@ -14,3 +16,5 @@ public:
 	string getType() const;
 	void setType(const string& type);
 };
+
+#endif
